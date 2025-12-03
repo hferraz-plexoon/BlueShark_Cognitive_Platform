@@ -220,8 +220,6 @@ Copilot ESG
 
 ---
 
----
-
 # 10. Roadmap Evolutivo
 
 Fase | Entrega | Status
