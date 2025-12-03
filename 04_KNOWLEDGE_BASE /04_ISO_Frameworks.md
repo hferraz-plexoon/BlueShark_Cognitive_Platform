@@ -186,6 +186,95 @@ A plataforma mapeia as normas às leis locais:
 ---
 
 # 4. Estrutura para RAG — Normas Tokenizadas
+token_window: 512–4096
+metadata:
+- norma
+- capítulo
+- país
+- idioma
+- módulo
+- criticidade
+  - versionamento: semver
+
+Cada norma possui:
+source_of_truth.yaml
+chunks/
+tags/
+embeddings/
+
+
+---
+
+# 5. Mapeamento de Normas → Módulos BlueShark
+
+| Módulo | Normas Base |
+|--------|-------------|
+| ColdChain | Codex, ISO 22000 |
+| BestFood | HACCP, ISO 22000, ISO/TS 22002 |
+| ESG+Social | ISO 14001, ISO 26000 |
+| SafeStay | ISO 21401, ISO 9001 |
+| GuestExperience | ISO 21401, WCAG |
+| GovTech | Codex, DL04/2009, WHO |
+| Academy | Todas as normas em versão “didática” |
+| Audit | ISO 19011 + ISO 9001 |
+
+---
+
+# 6. Normas Complementares (Cultura e Países)
+
+O sistema permite adicionar:
+
+- legislação local por ilha  
+- guias do ITCV  
+- protocolos do INSP  
+- revisões anuais de normas de saúde  
+- requisitos de FAO para pesca  
+- frameworks da UNWTO para turismo  
+
+Tudo versionado.
+
+---
+
+# 7. Estrutura Multi-País
+
+
+
+/normas/
+/global/
+/cabo-verde/
+/brasil/
+/angola/
+/portugal/
+
+
+Cada país possui:
+
+
+
+index_normativo.json
+country_overrides.yaml
+traducoes/
+
+
+---
+
+# 8. Conclusão
+
+Este documento consolida:
+
+- A fundação normativa da plataforma  
+- A matriz de integridade legal  
+- O backbone do RAG regulatório  
+- A base dos checklists, trilhas e copilots  
+
+Ele garante que a BlueShark Cognitive Platform siga:
+
+✔ normas internacionais  
+✔ legislações locais  
+✔ governança séria  
+✔ auditoria contínua  
+✔ IA explicável, confiável e segura  
+
 
 Todos os documentos devem ser ingestados com:
 
