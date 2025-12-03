@@ -1,192 +1,244 @@
-# 04_Architecture_C4  
-BlueShark Cognitive Platform — C4 (System & Container View)
+# 04 — Data Flow Diagrams (DFD)
+## BlueShark Cognitive Platform  
+### Versão 2025 — BeSafe Digital
+
+Este documento descreve os **Data Flow Diagrams (DFDs)** da BlueShark Cognitive Platform, cobrindo:
+
+- Fluxos de dados entre módulos de IA  
+- Interação entre Copilots, RAG e Knowledge Base  
+- Comunicação entre usuários, APIs e orquestradores  
+- Integração GovTech, Academy, Mobile & IA  
+- Processamento de documentos normativos  
+- Auditoria e registro de logs  
+
+Os DFDs aqui apresentados abrangem níveis **DFD-0 (contexto)**, **DFD-1 (nível macro)** e **DFD-2 (fluxos detalhados)**.
 
 ---
 
-## 1. System Context (Nível 1)
+# 🟦 DFD-0 — Context Diagram (Visão Geral)
 
-**Sistema Principal: BlueShark Cognitive Platform**
+Representa a plataforma como um único sistema cognitivo.
 
-Atores Externos:
+[Usuários] →
+(API Gateway → Cognitive Platform) →
+[Respostas / Ações / Relatórios]
 
-- **Trabalhadores / Alunos**
-  - Pescadores, cozinheiros, garçons, técnicos de qualidade, jovens em formação.
-  - Usam o Academy para trilhas, aulas, certificações.
+[Governos] →
+(GovTech Copilot) ↔ (Knowledge Base)
 
-- **Consultores BeSafe Digital**
-  - Usam o Academy & Implementation Hub para implantar e auditar.
+[Empresas / Hotéis / Restaurantes] →
+(Operational Copilots) ↔ (RAG Retrieval)
 
-- **Inspetores Governamentais**
-  - IGAE, INSP, ERIS, IGQPI, ITCV.
-  - Usam o GovTech Suite para inspeções, autos e relatórios.
+[Academy Usuários] →
+(Academy Copilot) → (Learning Engine)
 
-- **Diretoria de Governo**
-  - Ministério da Economia, Turismo, Saúde.
-  - Usam dashboards nacionais e relatórios de risco.
+### Entradas gerais
+- Perguntas dos usuários  
+- Checklists e evidências  
+- Normas, leis e documentos  
+- Dados operacionais  
+- Ocorrências cidadãs  
 
-- **Cidadãos e Turistas**
-  - Reportam incidentes (intoxicação, má higiene, reclamações).
-
-- **Sistemas Externos (futuro)**
-  - ERPs, HR, sensores IoT, Booking/TripAdvisor, sistemas fiscais.
-
-Relação geral:
-
-- Todos os atores interagem com a **BlueShark Cognitive Platform** via:
-  - Portais Web  
-  - Apps Mobile (futuro)  
-  - APIs (integrações externas)  
+### Saídas gerais
+- Respostas do Copilot  
+- Planos de ação  
+- Relatórios  
+- Insights preditivos  
+- Alertas e notificações  
 
 ---
 
-## 2. Container Diagram (Nível 2)
+# 🟧 DFD-1 — Estrutura Macro do Fluxo de Dados
 
-### 2.1. Contêineres Principais
+Mostra como cada componente se relaciona internamente.
+           ┌────────────────────┐
+           │   API GATEWAY      │
+           └─────────┬──────────┘
+                     │
+                     ▼
+           ┌────────────────────┐
+           │ COGNITIVE ENGINE   │
+           │ - Orchestration    │
+           │ - Multi-Copilot    │
+           └─────────┬──────────┘
+                     │
+   ┌─────────────────┼─────────────────┐
+   │                 │                 │
+   ▼                 ▼                 ▼
+┌────────────┐ ┌────────────┐ ┌────────────┐
+│ RAG Engine │ │ Reasoning  │ │ Vision/VC  │
+└────┬───────┘ └────┬───────┘ └────┬───────┘
+     │              │              │
+     ▼              ▼              ▼
+┌────────────┐ ┌────────────┐ ┌────────────┐
+│ Embeddings │ │ Policies   │ | Evidence DB│
+└────┬───────┘ └────────────┘ └────────────┘
+     │
+     ▼
+┌──────────────────────────────┐
+│ Knowledge Base (Normativas)  │
+│ - Leis CV                    │
+│ - ISO 22000, 14001, 9001     │
+│ - HACCP                      │
+│ - Checklists BlueShark       │
+└──────────────────────────────┘
 
-1. **Web Frontend – GovTech Portal**
-   - Tecnologia: Next.js / React
-   - Função: dashboards de risco, heatmap, inspeções, GovTech Copilot.
-
-2. **Web Frontend – Academy Portal**
-   - Tecnologia: Next.js / React
-   - Função: trilhas, aulas, quizzes, certificados, IA Tutor.
-
-3. **Web Frontend – Admin / BeSafe Portal**
-   - Tecnologia: Next.js / React
-   - Função: gestão de tenants, normas, conteúdos, IA, parâmetros globais.
-
-4. **API Gateway / Edge**
-   - Tecnologia: API Gateway (AWS) / Nginx / Kong (a definir)
-   - Função: entrada única de todas as requisições, autenticação, roteamento.
-
-5. **BFF – GovTech**
-   - Tecnologia: Node.js / NestJS
-   - Função: adaptar APIs para experiência GovTech Web & Mobile.
-
-6. **BFF – Academy**
-   - Tecnologia: Node.js / NestJS
-   - Função: adaptar APIs para experiência Academy Web & Mobile.
-
-7. **Core Backend (Monolito Modular ou Microserviços no mesmo cluster)**
-   - Módulos internos:
-     - Auth & Identity  
-     - Tenant & Org Registry  
-     - Academy Service  
-     - Implementation Hub Service (futuro)  
-     - GovTech Service  
-     - Incident & Citizen Reporter Service  
-     - Notification Service  
-
-8. **AI Layer**
-   - Subcontêineres lógicos:
-     - RAG Engine (Normatives Index)  
-     - Copilot Orchestrator  
-     - Vision & Document AI  
-
-9. **Database Cluster**
-   - PostgreSQL (schemas separados por domínio)
-   - Redis (cache, sessões)
-   - TimescaleDB / extensão para séries temporais (sensores, IoT — futuro).
-
-10. **Object Storage**
-    - S3 / compatível
-    - Evidências de inspeção, documentos, laudos, anexos.
-
-11. **Event / Message Bus (futuro – para Arquitetura C)**
-    - Kafka / RabbitMQ / SNS+SQS
-    - Eventos de domínio.
 
 ---
 
-## 3. Relações entre Contêineres
-
-- **Usuários Web (Gov, Academy, Admin)**  
-  → acessam **Frontends Web**  
-  → que chamam o **API Gateway**
-
-- **API Gateway**  
-  → aplica autenticação / autorização  
-  → encaminha para os **BFFs** corretos (GovTech, Academy, Admin)
-
-- **BFFs**  
-  → consomem serviços do **Core Backend**  
-  → orquestram chamadas ao **AI Layer** quando necessário
-
-- **Core Backend**  
-  → lê/grava dados no **Database Cluster**  
-  → envia/recebe arquivos do **Object Storage**  
-  → (futuro) publica/consome eventos do **Event / Message Bus**
-
-- **AI Layer**  
-  → consulta o **Object Storage** (documentos normativos)  
-  → consulta índices vetoriais (RAG)  
-  → registra logs/análises em banco / observabilidade
+# 🟩 DFD-2 — Detalhamento dos Fluxos
 
 ---
 
-## 4. Zoom nos Módulos MVP (GovTech + Academy)
+## 1. Fluxo — Consulta do Copilot (Pergunta → Resposta)
 
-### 4.1. MVP GovTech (em 60 dias)
+1. Usuário envia pergunta
+2. API Gateway recebe e autentica
+3. Orchestrator identifica o copilot
+4. RAG Engine pesquisa no Knowledge Base
+5. Reasoning Engine monta resposta contextual
+6. Security Layer aplica filtragens
+7. Logs gravados no Audit Layer
 
-Fluxo típico:
+Resposta enviada ao usuário
 
-1. Diretor acessa GovTech Web → vê **heatmap** e dashboards.  
-2. Inspetor acessa GovTech Web / Mobile → recebe lista de inspeções.  
-3. Inspetor realiza inspeção → registra checklist, fotos, observações.  
-4. GovTech Service grava inspeção + evidências no DB + S3.  
-5. AI Layer (GovTech Copilot) sugere enquadramento legal e ação.  
-6. Sistema gera auto/relatório → disponível no portal + exportável (PDF).
-
-Contêineres envolvidos:
-
-- GovTech Web Frontend  
-- API Gateway  
-- BFF – GovTech  
-- Core Backend (GovTech Service, Incident Service, Auth, Tenant)  
-- AI Layer (RAG + Copilot de inspeção)  
-- Database Cluster  
-- Object Storage  
-
-### 4.2. MVP Academy (em 60 dias)
-
-Fluxo típico:
-
-1. Aluno entra no Academy Web → vê trilhas disponíveis.  
-2. Matricula-se em trilha obrigatória.  
-3. Consome aulas, faz quizzes, pede ajuda ao IA Tutor.  
-4. Academy Service registra progresso e notas.  
-5. Ao concluir trilha + critérios → certificação automática.  
-6. Dados de % de equipe treinada ficam disponíveis para GovTech.
-
-Contêineres envolvidos:
-
-- Academy Web Frontend  
-- API Gateway  
-- BFF – Academy  
-- Core Backend (Academy Service, Auth, Tenant)  
-- AI Layer (Academy Tutor)  
-- Database Cluster  
-- Object Storage (materiais, PDFs, vídeos)  
+### Dados envolvidos
+- Query do usuário  
+- Documentos recuperados  
+- Chain-of-thought controlado  
+- Referências normativas  
 
 ---
 
-## 5. Preparação para Arquitetura C (Multi-Agent)
+## 2. Fluxo — Classificação de Não Conformidade (NC)
 
-Mesmo com contêiner unificado de backend, o desenho já:
+1. App/Portal envia evidência (foto, texto, checklist)
+2. Vision Engine extrai informações
+3. RAG verifica norma aplicável
+4. Reasoning compara situação vs. norma
+5. Gerado: Classificação NC + Plano de Ação
 
-- isola os domínios (Academy, GovTech, Incidents, Notifications)  
-- isola o **AI Layer** como contêiner independente  
-- prevê um **Event / Message Bus** para transformação futura em agentes:
-
-  - `Academy Agent` consumindo eventos de curso/conclusão  
-  - `GovTech Agent` consumindo inspeções e incidentes  
-  - `Citizen Agent` consumindo denúncias  
-  - `Policy Agent` monitorando mudanças normativas  
-
-Isso permite:
-
-- começar “monolito modular + AI desacoplado” (rápido pro MVP)  
-- migrar gradualmente para **multi-agent distribuído**,  
-  sem reescrever tudo do zero.
+### Dados envolvidos
+- Imagens (JPEG, PNG)  
+- Leis aplicáveis  
+- Normas técnicas  
+- Pesos de risco  
 
 ---
+
+## 3. Fluxo — GovTech (Surtos, Mapas de Risco e Inspeções)
+
+1. Sistema recebe: incidente, denúncia ou inspeção
+2. Dados são enviados ao GovTech Copilot
+3. RAG cruza: legislação + histórico + empresa
+4. Reasoning classifica a gravidade do incidente
+5. Gera: alerta, recomendação e ordem de inspeção
+6. Dashboard atualiza o mapa de risco
+
+### Dados envolvidos
+- Relatórios públicos  
+- Coordenadas geográficas  
+- Histórico sanitário  
+- Base normativa do governo  
+
+---
+
+## 4. Fluxo — Academy (Tutor de IA + Avaliação Automática)
+
+1. Aluno faz pergunta sobre o curso
+2. Academy Copilot processa
+3. RAG busca conteúdo pedagógico
+4. Reasoning cria explicação personalizada
+5. IA Tutor envia resposta + exercício adaptado
+
+Se for prova → IA Avaliador analisa e classifica
+
+
+### Dados envolvidos
+- Material pedagógico  
+- Conteúdos da trilha  
+- Regras de certificação  
+- Respostas e acertos do aluno  
+
+---
+
+# 🟪 DFD — Data Lineage e Auditoria
+
+[Input User]
+↓
+[API Layer]
+↓
+[Cognitive Engine]
+↓
+[RAG + Reasoning]
+↓
+[Outputs]
+↓
+[Audit Log Store] → [Immutability Layer]
+
+### A rastreabilidade inclui:
+- Prompt recebido  
+- Documentos consultados  
+- Tempo de processamento  
+- IA usada  
+- Resposta enviada  
+- Versão do modelo  
+- Hash do conjunto de evidências  
+
+---
+
+# 🟫 DFD — Atualização de Conhecimento (Normativas e Leis)
+
+1. Admin envia PDF / URL / texto de norma
+2. Pipeline de ingestão limpa e transforma conteúdo
+3. Documento é enviado ao Embedding Generator
+4. Vetores são criados e armazenados
+5. Tabela de metadados registra:
+  - País
+  - Instituto
+  - Norma
+  - Versão
+  - Validade
+6. KB é atualizada
+7. Copilots passam a consultar a nova norma
+
+---
+
+# 🟨 DFD — Orquestração Multi-Copilot
+
+1. Pergunta recebida
+2. Intent Classification seleciona:
+  — Academy?
+  — ColdChain?
+  — BestFood?
+  — ESG?
+  — SafeStay?
+  — GovTech?
+3. Orchestrator aciona copilots necessários
+4. Outputs são mesclados
+5. Resultado final enviado ao usuário
+
+
+---
+
+# ✔️ Conclusão
+
+Este documento formaliza:
+
+- como os dados fluem pela plataforma,  
+- como os copilots conversam entre si,  
+- como RAG → Reasoning → Security → Logging funcionam,  
+- como a base normativa alimenta TODOS os módulos.
+
+Ele servirá de base para:
+
+- desenvolvimento  
+- API design  
+- segurança  
+- auditoria  
+- compliance  
+- treinamento de novos engenheiros  
+- apresentações para governo e parceiros  
+
+---
+
