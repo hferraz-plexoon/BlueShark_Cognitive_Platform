@@ -1,6 +1,6 @@
 # 01_API_Overview.md  
 ## BlueShark Cognitive Platform — API Overview (Opção A – REST/JSON)
-
+ 
 Este documento descreve a **visão geral da API REST/JSON** da **BlueShark Cognitive Platform**, utilizada para:
 
 - Integrar os **Copilots de IA** (GovTech, BestFood, ColdChain, Academy etc.)
