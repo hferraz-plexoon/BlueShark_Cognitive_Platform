@@ -164,3 +164,99 @@ A IA cria:
 
 # 6. Arquitetura do Copilot (Resumo)
 
+Copilot Implantation
+├─ Input Processor
+│ ├─ Texto
+│ ├─ Imagem (Visão Computacional)
+│ └─ PDF/OCR
+├─ RAG Normativo
+│ ├─ ISO
+│ ├─ HACCP
+│ ├─ Leis Cabo Verde
+│ ├─ POPs
+│ └─ Checklists
+├─ Reasoning Engine
+├─ PDCA Generator
+├─ Evidence Validator
+├─ Safety Layer
+└─ Implementation Dashboard
+
+
+---
+
+# 7. Base de Conhecimento
+
+Fontes oficiais:
+
+- Normas ISO 22000, 14001, 9001, 21401  
+- HACCP e Codex Alimentarius  
+- Decretos e legislação Cabo Verde  
+- POPs de cozinha, housekeeping, pesca  
+- Manual de ESG BeSafe  
+- Checklists do Mobile & IA  
+- Checklists de implantação  
+- Matriz oficial do Implementation Hub  
+
+---
+
+# 8. Comportamentos de Resposta
+
+### Exemplo 1 — Explicação Técnica
+> A temperatura ideal para armazenamento de peixe fresco é entre 0°C e 2°C.  
+> Base: ISO 22000, Codex Alimentarius e Decreto-Lei 04/2009.
+
+### Exemplo 2 — Ação Corretiva
+> Captação de imagem indica risco de contaminação cruzada (tábua suja).  
+> Realize:  
+> - Higienização imediata;  
+> - Reforço de POP de manipulação;  
+> - Treinamento rápido para a equipe.
+
+### Exemplo 3 — Plano Automático
+> Falha detectada: Câmara fria acima de 6°C.  
+> Plano:  
+> - Verificar termostato;  
+> - Registrar temperatura 3× ao dia;  
+> - Manutenção preventiva;  
+> - Evidência: Foto + registro do termômetro.
+
+---
+
+# 9. Segurança e Limitações
+
+O copilot **não pode**:
+
+- emitir certificação  
+- ignorar normas  
+- validar documentos sem evidência objetiva  
+- remover etapas obrigatórias  
+- sugerir práticas contra legislação  
+
+---
+
+# 10. Roadmap Evolutivo
+
+Fase | Entrega | Status
+------|---------|--------
+Fase 1 | IA interpretativa + RAG | MVP
+Fase 2 | Análise de fotos | MVP
+Fase 3 | Análise de vídeo | Em desenvolvimento
+Fase 4 | PDCA automático completo | Em desenvolvimento
+Fase 5 | Relatório final automático | Futuro
+Fase 6 | Cálculo de maturidade por IA | Futuro
+
+---
+
+# 11. Conclusão
+
+O **Copilot Implantation** transforma o trabalho dos consultores BeSafe, oferecendo:
+
+- padronização  
+- velocidade  
+- segurança técnica  
+- suporte normativo  
+- análise de evidências  
+- redução de retrabalho  
+
+É um dos pilares da expansão da BeSafe Digital e da qualidade operacional do BlueShark Program.
+
